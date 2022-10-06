@@ -1,7 +1,11 @@
-export type Props = {
-  pokemons: Pokemons[];
-};
+export interface RootObject {
+  count: number;
+  next: string;
+  previous: null;
+  results: Pokemon[];
+}
 
-type Pokemons = {
-  id: string;
-};
+export interface Pokemon {
+  name: string;
+  url: string;
+}

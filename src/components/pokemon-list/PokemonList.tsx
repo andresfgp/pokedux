@@ -1,11 +1,17 @@
 import PokemonCard from '../pokemon-card/PokemonCard';
-import { Props } from './PokemonList.model';
+import { RootObject } from './PokemonList.model';
 
-const PokemonList = ({ pokemons }: Props) => {
+const PokemonList = ({ results }: RootObject) => {
   return (
     <div className="PokemonList">
-      {pokemons.map((pokemon) => {
-        return <PokemonCard key={pokemon.id} />;
+      {results.map((pokemon) => {
+        return (
+          <PokemonCard
+            key={pokemon.name}
+            name={pokemon.name}
+            url={pokemon.url}
+          />
+        );
       })}
     </div>
   );
