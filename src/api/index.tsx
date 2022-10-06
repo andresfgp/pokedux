@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { Pokemon } from '../models/pokemon';
 
-const getPokemon = async () => {
+export const getPokemon = async () => {
   try {
     const res = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=151');
     return res.data.results;
@@ -9,4 +10,9 @@ const getPokemon = async () => {
   }
 };
 
-export default getPokemon;
+export const getPokemonDetails = (pokemon: Pokemon) => {
+  return axios
+    .get(pokemon.url)
+    .then((res) => res.data)
+    .catch((err) => console.log(err));
+};

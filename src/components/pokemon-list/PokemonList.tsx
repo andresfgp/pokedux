@@ -1,17 +1,12 @@
+import { Pokemon, Pokemons } from '../../models/pokemon';
 import PokemonCard from '../pokemon-card/PokemonCard';
-import { RootObject } from './PokemonList.model';
 
-const PokemonList = ({ results }: RootObject) => {
+const PokemonList = ({ pokemons }: Pokemons) => {
   return (
     <div className="PokemonList">
-      {results.map((pokemon) => {
-        return (
-          <PokemonCard
-            key={pokemon.name}
-            name={pokemon.name}
-            url={pokemon.url}
-          />
-        );
+      {pokemons.map((pokemon: Pokemon) => {
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        return <PokemonCard key={pokemon.name} {...pokemon} />;
       })}
     </div>
   );

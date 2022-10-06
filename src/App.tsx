@@ -1,22 +1,31 @@
 import { Col } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
-import PokemonList from './components/pokemon-list/PokemonList';
 import Searcher from './components/searcher/Searcher';
 import logo from './assets/logo.svg';
-import getPokemon from './api';
+import { getPokemon, getPokemonDetails } from './api';
+import { setPokemons } from './actions';
+import PokemonList from './components/pokemon-list/PokemonList';
+import { Pokemon, Pokemons } from './models/pokemon';
 
 const App = () => {
-  const [pokemons, setPokemons] = useState([]);
+  const pokemons: Pokemon[] = useSelector((state: Pokemons) => state.pokemons);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchPokemons = async () => {
       const pokemonsRes = await getPokemon();
-      setPokemons(pokemonsRes);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const pokemonsDetailed = await Promise.all<Pokemons>(
+        pokemonsRes.map((pokemon: Pokemon) => getPokemonDetails(pokemon))
+      );
+
+      dispatch(setPokemons(pokemonsDetailed));
     };
 
     fetchPokemons();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="App">
@@ -26,7 +35,7 @@ const App = () => {
       <Col span={8} offset={8}>
         <Searcher />
       </Col>
-      <PokemonList count={0} next="" previous={null} results={pokemons} />
+      <PokemonList pokemons={pokemons} />
     </div>
   );
 };
