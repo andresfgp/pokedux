@@ -9,6 +9,7 @@ import { Pokemon } from '../models/pokemon';
 const initialState = {
   pokemons: [],
   searchPokemons: [],
+  keyboard: '',
 };
 
 export const fetchPokemonsWithDetails = createAsyncThunk(
@@ -33,6 +34,7 @@ export const dataSlice = createSlice({
     },
     searchPokemons: (state, action) => {
       const { pokemons } = state;
+      state.keyboard = action.payload;
       state.searchPokemons =
         action.payload === ''
           ? pokemons

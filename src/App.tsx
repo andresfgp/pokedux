@@ -19,6 +19,7 @@ const App = () => {
     (state: Data) => state.data.searchPokemons,
     shallowEqual
   );
+  const keyboard: string = useAppSelector((state: Data) => state.data.keyboard);
   const loading = useAppSelector((state: Ui) => state.ui.loading);
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -38,7 +39,11 @@ const App = () => {
           <Spin spinning size="large" />
         </Col>
       ) : (
-        <PokemonList pokemons={pokemons} searchPokemons={searchPokemons} />
+        <PokemonList
+          pokemons={pokemons}
+          searchPokemons={searchPokemons}
+          keyboard={keyboard}
+        />
       )}
     </div>
   );

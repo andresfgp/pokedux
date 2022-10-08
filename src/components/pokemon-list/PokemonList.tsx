@@ -1,8 +1,10 @@
 import { Pokemon, Pokemons } from '../../models/pokemon';
 import PokemonCard from '../pokemon-card/PokemonCard';
+import './PokemonList.css';
 
-const PokemonList = ({ pokemons, searchPokemons }: Pokemons) => {
-  const data = searchPokemons.length === 0 ? pokemons : searchPokemons;
+const PokemonList = ({ pokemons, searchPokemons, keyboard }: Pokemons) => {
+  const data =
+    searchPokemons.length === 0 && keyboard === '' ? pokemons : searchPokemons;
   return (
     <div className="PokemonList">
       {data.map((pokemon: Pokemon) => {

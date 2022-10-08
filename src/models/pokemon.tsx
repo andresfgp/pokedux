@@ -4,6 +4,7 @@ export interface Data {
 export interface Pokemons {
   pokemons: Pokemon[];
   searchPokemons: Pokemon[];
+  keyboard: string;
 }
 
 export interface Pokemon {
