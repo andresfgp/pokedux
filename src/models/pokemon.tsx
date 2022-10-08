@@ -1,8 +1,12 @@
+export interface Data {
+  data: Pokemons;
+}
 export interface Pokemons {
   pokemons: Pokemon[];
 }
 
 export interface Pokemon {
+  pokemonId: number;
   abilities: Ability[];
   base_experience: number;
   forms: Species[];
@@ -22,6 +26,7 @@ export interface Pokemon {
   stats: Stat[];
   types: Type[];
   weight: number;
+  favorite: boolean;
 }
 
 export interface Ability {

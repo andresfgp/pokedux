@@ -23,6 +23,8 @@ module.exports = {
     'react/react-in-jsx-scope': 0,
     '@typescript-eslint/no-explicit-any': 'error',
     'import/prefer-default-export': 'off',
+    'default-param-last': 'off',
+    '@typescript-eslint/default-param-last': 'warn',
     'react/function-component-definition': [
       2,
       {
