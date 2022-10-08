@@ -1,3 +1,5 @@
+/* eslint-disable no-return-assign */
+/* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getPokemon, getPokemonDetails } from '../api';
@@ -6,6 +8,7 @@ import { Pokemon } from '../models/pokemon';
 
 const initialState = {
   pokemons: [],
+  searchPokemons: [],
 };
 
 export const fetchPokemonsWithDetails = createAsyncThunk(
@@ -16,7 +19,6 @@ export const fetchPokemonsWithDetails = createAsyncThunk(
     const pokemonsDetailed = await Promise.all(
       pokemonsRes.map((pokemon: Pokemon) => getPokemonDetails(pokemon))
     );
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     dispatch(setPokemons(pokemonsDetailed));
     dispatch(setLoading(false));
   }
@@ -29,19 +31,32 @@ export const dataSlice = createSlice({
     setPokemons: (state, action) => {
       state.pokemons = action.payload;
     },
+    searchPokemons: (state, action) => {
+      const { pokemons } = state;
+      state.searchPokemons =
+        action.payload === ''
+          ? pokemons
+          : pokemons.filter((pokemon: Pokemon) =>
+              pokemon.name.toLowerCase().includes(action.payload.toLowerCase())
+            );
+    },
     setFavorite: (state, action) => {
       const pokemons: Pokemon[] = [...state.pokemons];
-
-      // eslint-disable-next-line no-return-assign
-      pokemons.map((pokemon: Pokemon) =>
-        pokemon.id === action.payload.id
-          ? (pokemon.favorite = !pokemon.favorite)
-          : pokemon
-      );
+      const searchPokemons: Pokemon[] = [...state.searchPokemons];
+      setBoolean(pokemons, action);
+      setBoolean(searchPokemons, action);
     },
   },
 });
 
-export const { setFavorite, setPokemons } = dataSlice.actions;
+const setBoolean = (array: Pokemon[], action: { payload: { id: number } }) => {
+  return array.map((pokemon: Pokemon) =>
+    pokemon.id === action.payload.id
+      ? (pokemon.favorite = !pokemon.favorite)
+      : pokemon
+  );
+};
+
+export const { setFavorite, searchPokemons, setPokemons } = dataSlice.actions;
 
 export const dataReducer = dataSlice.reducer;

@@ -3,6 +3,7 @@ export interface Data {
 }
 export interface Pokemons {
   pokemons: Pokemon[];
+  searchPokemons: Pokemon[];
 }
 
 export interface Pokemon {
